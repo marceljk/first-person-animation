@@ -16,6 +16,8 @@ public class PlayerMovement : MonoBehaviour
     Vector3 velocity;
     bool isGrounded;
 
+    [SerializeField] Animator animator;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,6 +45,7 @@ public class PlayerMovement : MonoBehaviour
         //Vector3 move = transform.right * x + transform.forward * z;
 
         Vector3 move = transform.forward * z;
+        animator.SetFloat("Walk", move.magnitude);
         transform.Rotate(Vector3.up, x * speed * 10 * Time.deltaTime);
 
 
