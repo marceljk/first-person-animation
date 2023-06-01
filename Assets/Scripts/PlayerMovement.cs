@@ -33,11 +33,11 @@ public class PlayerMovement : MonoBehaviour
         {
             velocity.y = -2f;
         }
-        else
+        /*else
         {
             velocity.y += gravity * Time.deltaTime;
             controller.Move(velocity * Time.deltaTime);
-        }
+        }*/
 
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
@@ -50,10 +50,16 @@ public class PlayerMovement : MonoBehaviour
 
 
         controller.Move(speed * Time.deltaTime * move);
+        velocity.y += gravity * Time.deltaTime;
+        controller.Move(velocity * Time.deltaTime);
 
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+        }
+        if (Input.GetKeyDown(KeyCode.LeftControl) && move.magnitude > 0)
+        {
+            animator.SetTrigger("Slide");
         }
     }
 }
