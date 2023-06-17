@@ -5,9 +5,10 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public CharacterController controller;
+    public GameObject character;
     public float speed = 12f;
     public float gravity = -9.81f;
-    public float jumpHeight = 3f;
+    public float jumpHeight = 1.5f;
 
     public Transform groundCheck;
     public float groundDistance = 0.4f;
@@ -15,13 +16,15 @@ public class PlayerMovement : MonoBehaviour
 
     Vector3 velocity;
     bool isGrounded;
+    float climbingHeight = 1.8f;
+    HandleIK handleAnimatorEvents;
 
     [SerializeField] Animator animator;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        handleAnimatorEvents = character.GetComponent<HandleIK>();
     }
 
     // Update is called once per frame
@@ -45,21 +48,71 @@ public class PlayerMovement : MonoBehaviour
         //Vector3 move = transform.right * x + transform.forward * z;
 
         Vector3 move = transform.forward * z;
-        animator.SetFloat("Walk", move.magnitude);
+        float sprint = Input.GetKey(KeyCode.LeftShift) ? 1f : 0.5f;
+        animator.SetFloat("Walk", move.magnitude * sprint);
         transform.Rotate(Vector3.up, x * speed * 10 * Time.deltaTime);
 
 
-        controller.Move(speed * Time.deltaTime * move);
+        controller.Move(speed * sprint * Time.deltaTime * move);
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
 
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            if (Climbing())
+            {
+                animator.SetTrigger("Climb");
+            }
+            else
+            {
+                velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            }
         }
         if (Input.GetKeyDown(KeyCode.LeftControl) && move.magnitude > 0)
         {
             animator.SetTrigger("Slide");
         }
+    }
+
+    bool Climbing()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 0.8f))
+        {
+            Bounds blockBounds = hit.collider.gameObject.GetComponent<Renderer>().bounds;
+            float highestPoint = blockBounds.center.y + (blockBounds.size.y / 2f);
+            float distanceToGround = highestPoint - groundCheck.position.y;
+
+            if (distanceToGround > climbingHeight && distanceToGround < 2.5f)
+            {
+                Vector3 edgeOfCube = new Vector3(hit.point.x, highestPoint, hit.point.z);
+                Vector3 hitNormal = hit.normal.normalized;
+
+                Vector3 offsetDirection = Quaternion.Euler(0f, 90f, 0f) * hitNormal; // Compute the offset direction
+
+                handleAnimatorEvents.leftHand = edgeOfCube + offsetDirection * 0.5f;
+                handleAnimatorEvents.rightHand = edgeOfCube - offsetDirection * 0.5f;
+                handleAnimatorEvents.head = edgeOfCube;
+
+                Vector3 playerPos = transform.position;
+                Vector3 playerDirection = transform.forward;
+                float spawnDistance = 0.7f;
+
+                Vector3 spawnPos = playerPos + new Vector3(0, distanceToGround, 0) + playerDirection * spawnDistance;
+                handleAnimatorEvents.newPosition = spawnPos;
+                handleAnimatorEvents.IKClimbing = true;
+                controller.enabled = false;
+                transform.position = new Vector3(transform.position.x, transform.position.y + (distanceToGround-2), transform.position.z);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void UpdatePositionClimbing(Vector3 newPosition)
+    {
+        Debug.Log("prev: " + transform.position + " new: " + newPosition); 
+        transform.position = newPosition;
+        controller.enabled = true;
     }
 }
