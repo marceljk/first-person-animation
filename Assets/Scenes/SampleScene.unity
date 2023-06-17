@@ -280,7 +280,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: ffb8a5dc6cd72d442ba93ed332c30413, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -336,6 +336,7 @@ GameObject:
   - component: {fileID: 640071431}
   - component: {fileID: 640071433}
   - component: {fileID: 640071432}
+  - component: {fileID: 640071434}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -409,6 +410,22 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &640071434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 640071430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d89ed39b077dc8647a2bb0fe6fbdc7df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mouseSpeed: 1000
+  playerCamera: {fileID: 640071431}
+  xRotation: 0
+  animator: {fileID: 1064866396}
 --- !u!1 &818846677
 GameObject:
   m_ObjectHideFlags: 0
@@ -713,7 +730,7 @@ MonoBehaviour:
   controller: {fileID: 1109299607}
   character: {fileID: 157618887}
   speed: 12
-  gravity: -40
+  gravity: -20
   jumpHeight: 1.5
   groundCheck: {fileID: 1109170592}
   groundDistance: 0.1
@@ -729,7 +746,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1109299606}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.16, y: 2.79, z: 12.15}
+  m_LocalPosition: {x: 0, y: 0.14, z: 2.17}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1057,7 +1074,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 1833547402}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5000001
   m_Height: 2
   m_Direction: 1

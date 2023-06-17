@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -15,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask groundMask;
 
     Vector3 velocity;
-    bool isGrounded;
+    bool isGrounded, rollAnimation = false;
     float climbingHeight = 1.8f;
     HandleIK handleAnimatorEvents;
 
@@ -35,17 +37,15 @@ public class PlayerMovement : MonoBehaviour
         if (isGrounded && velocity.y < 0)
         {
             velocity.y = -2f;
+            if (rollAnimation)
+            {
+                rollAnimation = false;
+                animator.SetTrigger("Roll");
+            }
         }
-        /*else
-        {
-            velocity.y += gravity * Time.deltaTime;
-            controller.Move(velocity * Time.deltaTime);
-        }*/
 
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
-
-        //Vector3 move = transform.right * x + transform.forward * z;
 
         Vector3 move = transform.forward * z;
         float sprint = Input.GetKey(KeyCode.LeftShift) ? 1f : 0.5f;
@@ -57,7 +57,11 @@ public class PlayerMovement : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
 
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        if (Input.GetButtonDown("Jump") && move.magnitude > 0)
+        {
+            animator.SetTrigger("RunningJump");
+
+        } else if (Input.GetButtonDown("Jump") && isGrounded)
         {
             if (Climbing())
             {
@@ -65,12 +69,25 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+              velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+              animator.SetTrigger("Jump");
             }
+
         }
         if (Input.GetKeyDown(KeyCode.LeftControl) && move.magnitude > 0)
         {
             animator.SetTrigger("Slide");
+        }
+
+        Ray ray = new(groundCheck.position, Vector3.down);
+        if (!Physics.Raycast(ray, out RaycastHit raycastHit, 2.5f) && !isGrounded)
+        {
+            rollAnimation = true;
+        }
+
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            rollAnimation = true;
         }
     }
 
