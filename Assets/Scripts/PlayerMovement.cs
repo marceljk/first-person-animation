@@ -73,5 +73,10 @@ public class PlayerMovement : MonoBehaviour
         {
             rollAnimation = true;
         }
+
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            rollAnimation = true;
+        }
     }
 }

@@ -23,7 +23,7 @@ public class MouseLook : MonoBehaviour
         float mouseUpDown = Input.GetAxis("Mouse Y") * mouseSpeed * Time.deltaTime;
 
         AnimatorClipInfo[] animatorClipInfo = animator.GetCurrentAnimatorClipInfo(0);
-        if (animatorClipInfo.Length == 1 && animatorClipInfo[0].clip.name == "Happy Idle")
+        if (animatorClipInfo.Length == 1 && animatorClipInfo[0].clip.name == "Idle")
         {
             xRotation -= mouseUpDown;
             xRotation = Mathf.Clamp(xRotation, -25, 25);
