@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -126,6 +126,11 @@ NavMeshSettings:
 --- !u!4 &22919152 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -1755257065977866486, guid: 1c97ec37e33a0b744812f04721986697, type: 3}
+  m_PrefabInstance: {fileID: 1877678078}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &157618887 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 1c97ec37e33a0b744812f04721986697, type: 3}
   m_PrefabInstance: {fileID: 1877678078}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &379926597
@@ -625,6 +630,24 @@ Animator:
   m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 1c97ec37e33a0b744812f04721986697, type: 3}
   m_PrefabInstance: {fileID: 1877678078}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1064866397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 157618887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5d2bbe00be493844afed4ba0c14944c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 1064866396}
+  leftHand: {x: 0, y: 0, z: 0}
+  rightHand: {x: 0, y: 0, z: 0}
+  head: {x: 0, y: 0, z: 0}
+  newPosition: {x: 0, y: 0, z: 0}
+  IKClimbing: 0
 --- !u!1 &1109170591
 GameObject:
   m_ObjectHideFlags: 0
@@ -686,7 +709,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 2
-  m_Radius: 0.5
+  m_Radius: 0.3
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
@@ -705,9 +728,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1109299607}
+  character: {fileID: 157618887}
   speed: 12
   gravity: -20
-  jumpHeight: 2
+  jumpHeight: 1.5
   groundCheck: {fileID: 1109170592}
   groundDistance: 0.1
   groundMask:
