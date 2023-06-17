@@ -59,6 +59,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") && move.magnitude > 0)
         {
+            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             animator.SetTrigger("RunningJump");
 
         } else if (Input.GetButtonDown("Jump") && isGrounded)
@@ -69,8 +70,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-              velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-              animator.SetTrigger("Jump");
+                animator.SetTrigger("Jump");
             }
 
         }
