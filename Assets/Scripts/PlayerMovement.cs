@@ -102,7 +102,7 @@ public class PlayerMovement : MonoBehaviour
     bool Climbing()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 0.8f))
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 0.7f))
         {
             Bounds blockBounds = hit.collider.gameObject.GetComponent<Renderer>().bounds;
             float highestPoint = blockBounds.center.y + (blockBounds.size.y / 2f);
@@ -115,18 +115,19 @@ public class PlayerMovement : MonoBehaviour
 
                 Vector3 offsetDirection = Quaternion.Euler(0f, 90f, 0f) * hitNormal; // Compute the offset direction
 
-                handleAnimatorEvents.leftHand = edgeOfCube + offsetDirection * 0.5f;
-                handleAnimatorEvents.rightHand = edgeOfCube - offsetDirection * 0.5f;
+                handleAnimatorEvents.leftHand = edgeOfCube + offsetDirection * 0.25f;
+                handleAnimatorEvents.rightHand = edgeOfCube - offsetDirection * 0.25f;
                 handleAnimatorEvents.head = edgeOfCube;
 
                 Vector3 playerPos = transform.position;
-                Vector3 playerDirection = transform.forward;
                 float spawnDistance = 0.7f;
-
-                Vector3 spawnPos = playerPos + new Vector3(0, distanceToGround, 0) + playerDirection * spawnDistance;
+                Vector3 spawnPos = playerPos + new Vector3(0, distanceToGround, 0) + transform.forward * spawnDistance;
                 handleAnimatorEvents.newPosition = spawnPos;
                 handleAnimatorEvents.IKClimbing = true;
                 controller.enabled = false;
+
+                Quaternion targetRotation = Quaternion.LookRotation(-hitNormal, Vector3.up);
+                transform.rotation = targetRotation;
                 transform.position = new Vector3(transform.position.x, transform.position.y + (distanceToGround - 2), transform.position.z);
                 return true;
             }
@@ -136,7 +137,6 @@ public class PlayerMovement : MonoBehaviour
 
     public void UpdatePositionClimbing(Vector3 newPosition)
     {
-        Debug.Log("prev: " + transform.position + " new: " + newPosition);
         transform.position = newPosition;
         controller.enabled = true;
     }
