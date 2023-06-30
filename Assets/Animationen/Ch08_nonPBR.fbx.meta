@@ -105,9 +105,11 @@ ModelImporter:
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
   referencedClips:
+  - ddbccd1f6829ff540996e6543d23d435
   - f87e8ac1f16c59c4e9fd7031122cb37b
+  - de40208a391912344b81f131798a68f4
   - 0c071b22dcb8c9f4693ca713fdbf44c9
-  - cd66d04fe673dda4eb648765b2ad119f
+  - 8abf24a88d9e326469f8dec22449b797
   - dd1a5e7d949cf4d489f6453088e5a64d
   importAnimation: 1
   humanDescription:
@@ -573,7 +575,8 @@ ModelImporter:
     - name: mixamorig7:Hips
       parentName: Ch08_nonPBR(Clone)
       position: {x: -0.00000035108795, y: 0.979916, z: -0.00964191}
-      rotation: {x: 0.0000000085098515, y: -0.00000009466896, z: 0.0000032716414, w: 1}
+      rotation: {x: 0.0000000085098515, y: -0.00000009466896, z: 0.0000032716414,
+        w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: mixamorig7:Spine
       parentName: mixamorig7:Hips
